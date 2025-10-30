@@ -12,7 +12,9 @@ def data_preprocessing(data, target):
     data = data.dropna()
     x = data.drop(target, axis=1)
     y = data[target]
-    x_train, x_test, y_train, y_test = train_test_split(train_size=0.7, random_state=41)
+    x_train, x_test, y_train, y_test = train_test_split(
+        x, y, train_size=0.7, random_state=41
+    )
     scaler = StandardScaler()
     x_train = scaler.fit_transform(x_train)
     x_test = scaler.transform(x_test)
@@ -22,8 +24,7 @@ def data_preprocessing(data, target):
 def classification_algorithm(x_train, x_test, y_train, y_test):
     models = [GaussianNB(), RandomForestClassifier(), DecisionTreeClassifier()]
     results = []
-    for i in models:
-        model = i
+    for model in models:
         model.fit(x_train, y_train)
         pred = model.predict(x_test)
         accuracy = accuracy_score(y_test, pred) * 100
@@ -47,11 +48,10 @@ def regression_algorithm(x_train, x_test, y_train, y_test):
         RandomForestRegressor(),
         DecisionTreeRegressor(),
         LinearRegression(),
-        LogisticRegression(),
+        LogisticRegression(max_iter=1000),
     ]
     results = []
-    for i in models:
-        model = i
+    for model in models:
         model.fit(x_train, y_train)
         pred = model.predict(x_test)
         mse = mean_squared_error(y_test, pred)
