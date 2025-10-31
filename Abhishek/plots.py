@@ -26,7 +26,6 @@ def scatterplot(x, y):
     ax.set_xlabel(x)
     ax.set_ylabel(y)
     ax.set_title(f"{x} vs {y}")
-    plt.show()
     return fig
 
 
@@ -35,9 +34,10 @@ def histogram():
     if df is None:
         print("⚠️ Dataset not loaded.")
         return
-    df.hist(figsize=(10, 6))
-    plt.suptitle("Histogram")
-    plt.show()
+    fig, axes = plt.subplots(figsize=(10, 6))
+    df.hist(ax=axes)
+    fig.suptitle("Histogram")
+    return fig
 
 
 def corr_heatmap():
@@ -48,7 +48,6 @@ def corr_heatmap():
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.heatmap(df.corr(), annot=True, cmap="YlGnBu", ax=ax)
     ax.set_title("Correlation Heatmap")
-    plt.show()
     return fig
 
 
@@ -59,7 +58,6 @@ def pair_plots():
         return
     fig = sns.pairplot(df)
     fig.fig.suptitle("Pair Plot", y=1.02)
-    plt.show()
     return fig.fig
 
 
@@ -76,10 +74,4 @@ def line_plot(test, pred):
     ax.legend()
     ax.grid(True)
     ax.set_title("Line Plot")
-    plt.show()
     return fig
-
-
-# file = open("./Ice Cream.csv")
-# load_dataset(file)
-# pair_plots()
